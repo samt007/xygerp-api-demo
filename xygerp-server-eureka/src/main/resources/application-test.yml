@@ -1,0 +1,2 @@
+# 配置eureka的ip地址
+eureka.ipAddress: 192.168.99.100

@@ -1,0 +1,32 @@
+
+package ${package};
+
+import ${package}.service.${className}Service;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = MuckApplication.class)
+public class  ${className}ServiceTest {
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+    @Test
+    public void test() {
+        System.out.println("&&&&&&&&&&&查询${comments}开始&&&&&&&&&&&&&&&&&");
+        System.out.println(${classname}Service.queryObject("016a38e7-4cf0-11e7-aaed-a1cc4e594868"));
+        System.out.println("&&&&&&&&&&&&查询${comments}结束&&&&&&&&&&&&&&&&");
+    }
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jebms.albc.dao.AlbcEslipDao" >
+  <select id="selectByEslipNumber" resultType="Map">
+SELECT IEH.ESLIP_NUMBER
+      ,IEH.HEADER_ID
+      ,SUBSTRB (apps.XYG_PUB_COMMON_PKG.GET_LKDESC_BY_LKCODE (
+                     'INV_ESLIP_PROCESS_STATUS'
+                     ,IEH.STATUS_FLAG
+                     ,SYSDATE
+                     ,1)
+                ,1
+                ,80) STATUS_FLAG_DESC
+      ,IEH.STATUS_FLAG
+      ,TYP.TRANSACTION_TYPE_NAME
+      ,IEH.TRANSACTION_TYPE_ID      
+      ,IEH.SUBINVENTORY_CODE
+      ,IEH.TRANSFER_SUBINVENTORY
+      ,IEH.ORGANIZATION_ID
+FROM apps.INV_ESLIP_HEADERS IEH
+    ,apps.MTL_TRANSACTION_TYPES TYP
+WHERE TYP.TRANSACTION_TYPE_ID = IEH.TRANSACTION_TYPE_ID
+and IEH.ORGANIZATION_ID = #{organizationId,jdbcType=INTEGER}
+AND IEH.ESLIP_NUMBER = #{eslipNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="selectForPageLocator"  parameterType="com.jebms.comm.entity.SearchInfo"  resultType="Map">
+SELECT MIL.SEGMENT1 LOCATOR_CODE
+      ,MIL.INVENTORY_LOCATION_ID LOCATOR_ID
+      ,DESCRIPTION LOCATOR_DESC
+      ,MIL.SUBINVENTORY_CODE
+      ,MIL.ORGANIZATION_ID
+  FROM apps.MTL_ITEM_LOCATIONS MIL
+ WHERE MIL.ENABLED_FLAG ='Y'
+ AND (MIL.DISABLE_DATE IS NULL OR MIL.DISABLE_DATE > SYSDATE)
+		   ${sqlCondition}
+		   order by ${orderBy}
+  </select>
+  <select id="selectByLotNumber" resultType="Map">
+SELECT MLN.LOT_NUMBER
+      ,XASI.SEGMENT1 ITEM_NUMBER
+      ,XASI.DESCRIPTION ITEM_DESC
+	   ,MOQ.LOCATOR_ID
+      ,MIL.SEGMENT1 LOCATOR_CODE
+      ,MOQ.SUBINVENTORY_CODE
+      ,MLN.ORGANIZATION_ID
+      ,MLN.INVENTORY_ITEM_ID 
+ FROM  apps.MTL_LOT_NUMBERS MLN
+      ,apps.XYG_ALI_SYSTEM_ITEMS_VL XASI
+      ,apps.MTL_ONHAND_QUANTITIES MOQ
+	  ,apps.MTL_ITEM_LOCATIONS MIL
+WHERE  XASI.ORGANIZATION_ID = MLN.ORGANIZATION_ID
+   AND XASI.INVENTORY_ITEM_ID = MLN.INVENTORY_ITEM_ID  
+   AND MIL.ORGANIZATION_ID = MOQ.ORGANIZATION_ID
+   AND MIL.INVENTORY_LOCATION_ID = MOQ.LOCATOR_ID
+   AND MOQ.ORGANIZATION_ID = MLN.ORGANIZATION_ID
+   AND MOQ.INVENTORY_ITEM_ID = MLN.INVENTORY_ITEM_ID
+   AND MOQ.LOT_NUMBER = MLN.LOT_NUMBER
+   AND MLN.ORGANIZATION_ID = #{organizationId,jdbcType=INTEGER}
+   AND MOQ.SUBINVENTORY_CODE = #{subinventoryCode,jdbcType=VARCHAR}
+   AND MLN.LOT_NUMBER = #{lotNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="importEslipLine" statementType="CALLABLE" parameterType="java.util.Map">
+    {call APPS.INV_ESLIP_PKG.IMPORT_ESLIP_LINES(
+     #{message,mode=OUT,jdbcType=VARCHAR}
+    ,#{code,mode=OUT,jdbcType=BIGINT}
+    ,#{batchId,mode=IN,jdbcType=BIGINT}
+    ,#{headerId,mode=IN,jdbcType=BIGINT}
+    ,#{userId,mode=IN,jdbcType=BIGINT})}
+  </select>
+  <select id="postEslip" statementType="CALLABLE" parameterType="java.util.Map">
+    {call APPS.INV_ESLIP_PKG.GENERATE_ESLIP_INTERFACE(
+     #{headerId,mode=IN,jdbcType=BIGINT}
+    ,#{online,mode=IN,jdbcType=VARCHAR}
+    ,#{result,mode=OUT,jdbcType=VARCHAR}
+    ,#{message,mode=OUT,jdbcType=VARCHAR})}
+  </select>
+  <select id="eslipSubinvConfirm" statementType="CALLABLE" parameterType="java.util.Map">
+    {call APPS.INV_ESLIP_PKG.ESLIP_SUBINV_CONFIRM(
+     #{headerId,mode=IN,jdbcType=BIGINT}
+    ,#{code,mode=OUT,jdbcType=BIGINT}
+    ,#{message,mode=OUT,jdbcType=VARCHAR})}
+  </select>
+</mapper>

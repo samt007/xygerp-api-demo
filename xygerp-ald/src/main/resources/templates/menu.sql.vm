@@ -1,0 +1,33 @@
+
+-- 菜单SQL
+INSERT INTO `sys_menu` (
+	`id`,
+	`parent_id`,
+	`parent_ids`,
+	`name`,
+	`sort`,
+	`href`,
+	`icon`,
+	`is_show`,
+	`permission`,
+	`remarks`,
+	`create_date`,
+	`update_date`,
+	`del_flag`
+)
+VALUES
+	(
+	     UUID(),
+		'',
+		',',
+		'${comments}',
+		'30',
+		'app.${pathName}.list',
+		'glyphicon glyphicon-picture',
+		'1',
+		'',
+		'',
+		'2017-06-20 08:00:00',
+		'2017-06-20 08:00:00',
+		'0'
+	);

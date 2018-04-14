@@ -1,0 +1,67 @@
+(function () {
+    'use strict';
+
+    angular.module('app')
+        .service('${className}Service',${className}Service);
+
+   ${className}Service.$inject = ['$http', '$q', 'APP_CONST'];
+    function ${className}Service(http, $q, APP_CONST) {
+
+        this.list = function list(params) {
+            var d = $q.defer();
+			http.get(APP_CONST.PROPERTY.API_URL+  '/${pathName}/list', {
+		    	params: params
+			})
+            .success(function (data) {
+                d.resolve(data);
+            })
+                .error(function () {
+                    d.reject();
+                });
+
+            return d.promise;
+        };
+
+        this.deleteById = function deleteById(id) {
+            var d = $q.defer();
+
+            http.delete(APP_CONST.PROPERTY.API_URL + '/${pathName}/delete/' + id)
+            .success(function (data) {
+                d.resolve(data);
+            })
+                .error(function () {
+                    d.reject();
+                });
+
+            return d.promise;
+        };
+
+
+        this.getById = function getById(id) {
+            var d = $q.defer();
+            http.get(APP_CONST.PROPERTY.API_URL + '/${pathName}/info/' + id)
+            .success(function (data) {
+                d.resolve(data);
+            })
+                .error(function () {
+                    d.reject();
+                });
+
+            return d.promise;
+        };
+
+        this.saveData = function saveData(data) {
+            var d = $q.defer();
+            http.post(APP_CONST.PROPERTY.API_URL + '/${pathName}/save' ,data)
+            .success(function (data) {
+                d.resolve(data);
+            })
+                .error(function () {
+                    d.reject();
+                });
+
+            return d.promise;
+        };
+
+    }
+})();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jebms.albc.dao.AlbcUserDao" >
+  <select id="selectForUserOrganization" resultType="Map">
+  SELECT FUR.USER_ID
+        ,FU.USER_NAME
+        ,FU.DESCRIPTION USER_DESC
+        ,OA.ORGANIZATION_ID
+        ,OOG.ORGANIZATION_CODE
+        ,OOG.ORGANIZATION_NAME
+        ,OOG.OU_ID ORG_ID
+    FROM apps.FND_USER FU
+        ,apps.FND_USER_RESP_GROUPS_DIRECT FUR
+        ,apps.ORG_ACCESS OA
+        ,apps.XYG_OOG OOG
+   WHERE FU.USER_ID = FUR.USER_ID
+     AND OA.RESPONSIBILITY_ID = FUR.RESPONSIBILITY_ID
+     AND OA.RESP_APPLICATION_ID = FUR.RESPONSIBILITY_APPLICATION_ID
+     AND OOG.ORGANIZATION_ID = OA.ORGANIZATION_ID
+     AND FUR.USER_ID = #{userId,jdbcType=BIGINT}
+GROUP BY FUR.USER_ID
+        ,FU.USER_NAME
+        ,FU.DESCRIPTION 
+        ,OA.ORGANIZATION_ID
+        ,OOG.ORGANIZATION_CODE
+        ,OOG.ORGANIZATION_NAME
+        ,OOG.OU_ID
+       ORDER BY OOG.ORGANIZATION_NAME
+  </select>
+</mapper>

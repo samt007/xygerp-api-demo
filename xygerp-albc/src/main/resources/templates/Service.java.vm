@@ -1,0 +1,39 @@
+package ${package}.service;
+
+import ${package}.entity.${className};
+import com.github.pagehelper.PageInfo;
+import  ${package}.common.entity.Paging;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+
+    ${className} queryObject(${pk.attrType} ${pk.attrname});
+
+    List<${className}> queryList(Map<String, Object> map);
+
+    PageInfo<${className}> findPage(Paging page, ${className} ${classname});
+
+    /**
+     * 查询${comments}列表
+     *
+     * @param page  分页信息
+     * @param query 查询条件
+     * @return 用户 page info
+     */
+    PageInfo<${className}> queryPage(Paging page, Map<String, Object> query);
+
+    ${className} save(${className} ${classname});
+
+    void deleteById(String id);
+
+    void delete(${className} ${classname});
+
+}

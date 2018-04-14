@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jebms.albc.dao.AldUploadTempDao" >
+  <select id="selectTotrxUploadByBatchId" resultType="Map">
+SELECT UPLOAD_TEMP_ID
+           ,BATCH_ID
+           ,DOC_CODE
+           ,DOC_ROW
+           ,PROCESS_FLAG
+           ,REPLACE(PROCESS_MESSAGE,CHR(10),NULL) PROCESS_MESSAGE
+           ,COL1 IMPORT_LINE_NUM
+           ,COL2 DELIVERY_NAME
+           ,COL3 REQUEST_NUMBER
+           ,COL4 REQUEST_LINE_NUMBER
+           ,COL5 LOT_NUMBER
+  FROM apps.xyg_ald_upload_temp
+ WHERE BATCH_ID=#{batchId,jdbcType=BIGINT}
+     AND COL55 = 'XYG_ALBC'
+     AND DOC_CODE = 'IMPORT_TOTRX'
+ ORDER BY DOC_ROW
+  </select>
+  <select id="selectFinishUploadByBatchId" resultType="Map">
+SELECT UPLOAD_TEMP_ID
+           ,BATCH_ID
+           ,DOC_CODE
+           ,DOC_ROW
+           ,PROCESS_FLAG
+           ,REPLACE(PROCESS_MESSAGE,CHR(10),NULL) PROCESS_MESSAGE
+           ,COL1 IMPORT_LINE_NUM
+           ,COL2 LOT_NUM
+           ,COL3 SUBINVENTORY_CODE
+           ,COL4 LOCATOR_CODE
+           ,COL5 DESCRIPTION
+  FROM apps.xyg_ald_upload_temp
+ WHERE BATCH_ID=#{batchId,jdbcType=BIGINT}
+     AND COL55 = 'XYG_ALBC'
+     AND DOC_CODE = 'FINISH_IMPORT'
+ ORDER BY DOC_ROW
+  </select>
+</mapper>

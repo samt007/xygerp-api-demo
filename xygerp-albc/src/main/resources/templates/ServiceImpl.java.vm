@@ -1,0 +1,40 @@
+package ${package}.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Map;
+
+import ${package}.entity.${className};
+import ${package}.service.${className}Service;
+import ${package}.mapper.${className}Mapper;
+import ${package}.common.service.CrudService;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class ${className}ServiceImpl extends CrudService<${className}Mapper, ${className}> implements ${className}Service {
+	@Autowired
+	private ${className}Mapper ${classname}Mapper;
+
+    @Override
+    public ${className} queryObject(${pk.attrType} ${pk.attrname}){
+        return ${classname}Mapper.get(${pk.attrname});
+    }
+
+	@Override
+	public List<${className}> queryList(Map<String, Object> map){
+		return ${classname}Mapper.queryList(map);
+	}
+
+	@Override
+	public void deleteById(${pk.attrType} ${pk.attrname}){
+		${classname}Mapper.deleteById(${pk.attrname});
+	}
+	
+	@Override
+	public void delete(${className} ${classname}){
+		${classname}Mapper.delete(${classname});
+	}
+	
+}

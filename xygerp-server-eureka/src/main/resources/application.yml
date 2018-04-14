@@ -1,0 +1,24 @@
+server:
+    port: 8101
+
+spring:
+    # 环境 dev|test|pro
+    profiles:
+        active: '@profileActive@'
+    application:
+        name: xygerp-server-eureka
+
+eureka:
+    instance:
+        prefer-ip-address: true
+        ip-address: ${eureka.ipAddress}
+        instance-id: ${eureka.ipAddress}:${server.port}
+        hostname: ${eureka.ipAddress}
+    client:
+        register-with-eureka: false
+        fetch-registry: false
+        service-url.defaultZone: http://${eureka.ipAddress}:8101/eureka/
+        eureka-server-read-timeout-seconds: 30
+    server:
+        enable-self-preservation: false
+        eviction-interval-timer-in-ms: 30000

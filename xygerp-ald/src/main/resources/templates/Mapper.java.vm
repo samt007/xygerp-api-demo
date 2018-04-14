@@ -1,0 +1,16 @@
+package ${package}.mapper;
+
+import ${package}.entity.${className};
+import ${package}.common.dao.CrudDao;
+import org.apache.ibatis.annotations.Mapper;
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Mapper extends CrudDao<${className}> {
+	
+}

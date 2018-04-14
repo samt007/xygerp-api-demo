@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jebms.ald.dao.DemoEmpDao" >
+  <select id="selectForPage" parameterType="com.jebms.comm.entity.SearchInfo" resultType="com.jebms.ald.entity.DemoEmpVO">
+          SELECT e.*
+                     ,d.dname
+                     ,d.loc
+          FROM apps.EMP e,apps.DEPT d
+		 WHERE e.deptno=d.deptno
+		   ${sqlCondition}
+          order by ${orderBy}
+  </select>
+  <select id="selectVOByPK" parameterType="java.lang.Long"  resultType="com.jebms.ald.entity.DemoEmpVO" >
+          SELECT e.*
+                     ,d.dname
+                     ,d.loc
+          FROM apps.EMP e,apps.DEPT d
+		 WHERE e.deptno=d.deptno
+		     AND e.empno = #{empno,jdbcType=BIGINT}
+  </select>
+</mapper>

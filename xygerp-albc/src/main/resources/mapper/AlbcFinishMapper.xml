@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jebms.albc.dao.AlbcFinishDao" >
+  <select id="validateFinishDate" resultType="int">
+<![CDATA[ SELECT CASE
+         WHEN SYSDATE - cast(#{finishDate,jdbcType=TIMESTAMP} as date) < 0 THEN
+          1
+         ELSE
+          0
+       END
+  FROM DUAL]]>
+  </select>
+  <select id="selectBySubinventoryCode" resultType="Map">
+SELECT MSI.SECONDARY_INVENTORY_NAME SUBINVENTORY_CODE,
+       MSI.DESCRIPTION              SUBINVENTORY_DESC,
+       MSI.ORGANIZATION_ID
+  FROM apps.MTL_SECONDARY_INVENTORIES MSI
+ WHERE MSI.ORGANIZATION_ID = #{organizationId,jdbcType=INTEGER}
+   AND MSI.SECONDARY_INVENTORY_NAME = #{subinventoryCode,jdbcType=VARCHAR}
+   AND MSI.ATTRIBUTE3 = 'CP'
+  </select>
+  <select id="selectSubListByOrganizationId" resultType="Map">
+SELECT MSI.SECONDARY_INVENTORY_NAME SUBINVENTORY_CODE,
+       MSI.DESCRIPTION              SUBINVENTORY_DESC,
+       MSI.ORGANIZATION_ID
+  FROM apps.MTL_SECONDARY_INVENTORIES MSI
+ WHERE MSI.ORGANIZATION_ID = #{organizationId,jdbcType=INTEGER}
+   AND MSI.ATTRIBUTE3 = 'CP'
+  </select>
+  <select id="selectByLocatorCode" resultType="Map">
+SELECT MIL.SEGMENT1 LOCATOR_CODE, MIL.DESCRIPTION LOCATOR_DESC,MIL.SUBINVENTORY_CODE
+            ,MIL.ORGANIZATION_ID,MIL.INVENTORY_LOCATION_ID LOCATOR_ID
+  FROM apps.MTL_SECONDARY_INVENTORIES MSI, apps.MTL_ITEM_LOCATIONS MIL
+ WHERE MSI.ATTRIBUTE3 = 'CP'
+   AND MSI.LOCATOR_TYPE != 1
+   AND MSI.ORGANIZATION_ID = MIL.ORGANIZATION_ID
+   AND MSI.SECONDARY_INVENTORY_NAME = MIL.SUBINVENTORY_CODE
+   AND MIL.ORGANIZATION_ID = #{organizationId,jdbcType=INTEGER}
+   AND MIL.SUBINVENTORY_CODE = #{subinventoryCode,jdbcType=VARCHAR}
+   AND MIL.SEGMENT1 = #{locatorCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByLotNumber" resultType="Map">
+SELECT WE.WIP_ENTITY_NAME,
+       XALH.LOT_NUM LOT_NUMBER,
+       XASI.SEGMENT1          ITEM_NUMBER,
+       XASI.DESCRIPTION       ITEM_DESC,
+	   XALH.ORGANIZATION_ID,
+	   XASI.INVENTORY_ITEM_ID,
+	   XALH.WIP_ENTITY_ID,
+       XALH.LOT_HEADER_ID
+  FROM apps.XYG_ALI_LOT_HEADERS     XALH,
+       apps.WIP_ENTITIES            WE,
+       apps.WIP_DISCRETE_JOBS       WDJ,
+       apps.XYG_ALI_SYSTEM_ITEMS_VL XASI
+ WHERE 1 = 1
+   AND XALH.ORGANIZATION_ID = WE.ORGANIZATION_ID
+   AND XALH.WIP_ENTITY_ID = WE.WIP_ENTITY_ID
+   AND XASI.ORGANIZATION_ID = XALH.ORGANIZATION_ID
+   AND XASI.INVENTORY_ITEM_ID = XALH.INVENTORY_ITEM_ID
+   AND XALH.ORGANIZATION_ID = WDJ.ORGANIZATION_ID
+   AND XALH.WIP_ENTITY_ID = WDJ.WIP_ENTITY_ID
+   AND WDJ.STATUS_TYPE IN (3, 4)
+   AND XASI.LOT_CONTROL_CODE = '2'
+   AND XALH.FINISH_FLAG = 'N'
+   AND XALH.ORGANIZATION_ID = #{organizationId,jdbcType=INTEGER}
+   AND XALH.LOT_NUM = #{lotNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="importFinish" statementType="CALLABLE" parameterType="java.util.Map">
+    {call APPS.XYG_ALI_FINISH_PKG.IMPORT_FINISH(
+     #{message,mode=OUT,jdbcType=VARCHAR}
+    ,#{code,mode=OUT,jdbcType=BIGINT}
+    ,#{batchId,mode=IN,jdbcType=BIGINT}
+    ,#{orgId,mode=IN,jdbcType=INTEGER}
+    ,#{organizationId,mode=IN,jdbcType=INTEGER}
+    ,#{finishDate,mode=IN,jdbcType=VARCHAR}
+    ,#{finishPid,mode=IN,jdbcType=BIGINT}
+    ,#{userId,mode=IN,jdbcType=BIGINT}
+    ,#{transactionTypeId,mode=IN,jdbcType=INTEGER}
+    ,#{moveCompletionFlag,mode=IN,jdbcType=VARCHAR}
+    ,#{finalCompletionFlag,mode=IN,jdbcType=VARCHAR}
+    ,#{description,mode=IN,jdbcType=VARCHAR})}
+  </select>
+</mapper>

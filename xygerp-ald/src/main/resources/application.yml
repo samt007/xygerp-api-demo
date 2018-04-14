@@ -1,0 +1,59 @@
+# Tomcat
+server:
+    tomcat:
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8180
+    context-path: /xygerp/ald
+
+# oracle
+spring:
+    # 环境 dev|test|pro
+    profiles:
+        active: '@profileActive@'
+    application:
+        name: xygerp-ald
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        # jackson时间格式化
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    thymeleaf:
+        cache: false
+
+eureka:
+    instance:
+        prefer-ip-address: true
+        ip-address: ${eureka.ipAddress}
+        instance-id: ${eureka.ipAddress}:${server.port}
+        hostname: ${eureka.ipAddress}
+    client:
+        service-url.defaultZone: http://${eureka.ipAddress}:8101/eureka/
+        eureka-server-read-timeout-seconds: 30
+
+# Mybatis配置
+mybatis:
+    type-aliases-package: tk.mybatis.springboot.model
+    mapperLocations: classpath:mapper/*.xml
+    configLocation: classpath:mybatis.xml
+
+mapper:
+    #mappers:  - tk.mybatis.springboot.util.MyMapper
+    not-empty: false
+    identity: ORACLE
+    
+pagehelper:
+    helperDialect: oracle
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    
+#logging.level.cn.dcp.muck=DEBUG
+
+hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+#请求处理的超时时间  
+ribbon.ReadTimeout: 120000  
+#请求连接的超时时间  
+ribbon.ConnectTimeout: 30000

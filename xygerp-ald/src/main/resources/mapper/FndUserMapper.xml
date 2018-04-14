@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jebms.ald.dao.FndUserDao" >
+  <select id="selectByUserName" parameterType="java.lang.String"  resultType="com.jebms.ald.entity.FndUserVO" >
+          SELECT fu.*
+                     ,pp.employee_number
+                     ,pp.full_name
+          FROM apps.fnd_user fu
+          LEFT JOIN apps.xyg_alh_per_people_v pp
+          ON fu.employee_id=pp.person_id
+         WHERE fu.user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectVOByPK" parameterType="java.lang.Long"  resultType="com.jebms.ald.entity.FndUserVO" >
+          SELECT fu.*
+                     ,pp.employee_number
+                     ,pp.full_name
+          FROM apps.fnd_user fu
+          LEFT JOIN apps.xyg_alh_per_people_v pp
+          ON fu.employee_id=pp.person_id
+		 WHERE fu.user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="validateLogin" statementType="CALLABLE" parameterType="java.util.Map">
+    {#{result,mode=OUT,jdbcType=VARCHAR} = call APPS.FND_WEB_SEC.VALIDATE_LOGIN(#{userName,mode=IN,jdbcType=VARCHAR},#{password,mode=IN,jdbcType=VARCHAR})}
+  </select>
+  <select id="newAoljSession" statementType="CALLABLE" parameterType="java.util.Map">
+    {call APPS.FND_SIGNON.new_aolj_session(#{userId,mode=IN,jdbcType=BIGINT},#{loginId,mode=OUT,jdbcType=BIGINT},#{expired,mode=OUT,jdbcType=VARCHAR})}
+  </select>
+  <select id="auditEnd" statementType="CALLABLE" parameterType="java.util.Map">
+    {call APPS.FND_SIGNON.AUDIT_END(#{loginId,mode=IN,jdbcType=BIGINT})}
+  </select>
+</mapper>

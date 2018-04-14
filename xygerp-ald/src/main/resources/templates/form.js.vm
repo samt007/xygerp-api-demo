@@ -1,0 +1,43 @@
+(function () {
+    'use strict';
+
+    angular.module('app')
+        .controller('${className}FormCtrl', ${className}FormCtrl);
+
+    ${className}FormCtrl.$inject = ['$rootScope', '$scope', '$state', 'toaster', '${className}Service', 'DICT_CONST'];
+    function ${className}FormCtrl($rootScope, $scope, $state,toaster, ${classname}Service, DICT_CONST) {
+
+        $scope.title = '${comments}信息';
+        var id = $state.params.id;
+        if (!!id) { //编辑
+            $scope.title = '${comments}详情';
+            $rootScope.loading = true;
+                ${classname}Service.getById(id)
+                .then(function (data) {
+                    $scope.${className} = data;
+                })
+                .finally(function () {
+                    $rootScope.loading = false;
+                });
+        } else { //新建
+            $scope.title = '新建${comments}';
+            $scope.${className} = {
+
+            };
+        }
+
+
+        $scope.saveData = function () {
+            $rootScope.loading = true;
+            ${classname}Service.saveData($scope.${className})
+                .then(function () {
+                    toaster.pop('success', '', '保存成功');
+                })
+                .finally(function () {
+                    $rootScope.loading = false;
+                })
+            ;
+        }
+
+    }
+})();

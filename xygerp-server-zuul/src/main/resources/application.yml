@@ -1,0 +1,43 @@
+server:
+    port: 8102
+
+spring:
+    # 环境 dev|test|pro
+    profiles:
+        active: '@profileActive@'
+    application:
+        name: xygerp-server-zuul
+
+zuul:
+    sensitiveHeaders:  # 使用空来覆盖默认值
+    host:
+      connect-timeout-millis: 100000
+      socket-timeout-millis: 100000
+    addProxyHeaders: true
+    routes:
+        fnd:
+            path: /xygerp/ald/**
+            serviceId: xygerp-ald
+            stripPrefix: false # 请求路径需要添加所匹配path
+        erp:
+            path: /xygerp/albc/**
+            serviceId: xygerp-albc
+            stripPrefix: false
+
+eureka:
+    instance:
+        prefer-ip-address: true
+        ip-address: ${eureka.ipAddress}
+        instance-id: ${eureka.ipAddress}:${server.port}
+        hostname: ${eureka.ipAddress}
+    client:
+        serviceUrl.defaultZone: http://${eureka.ipAddress}:8101/eureka/
+        eureka-server-read-timeout-seconds: 30
+
+ribbon:
+    ReadTimeout: 100000
+    ConnectTimeout: 100000
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 100000
+hystrix.command.default.execution.timeout.enabled: false 
+feign.hystrix.enabled: false

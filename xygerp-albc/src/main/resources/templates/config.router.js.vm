@@ -1,0 +1,30 @@
+   .state('app.${pathName}', {
+        url: '/${classname}',
+        template: '<div ui-view></div>'
+    })
+    .state('app.${pathName}.list', {
+        url: '/list',
+        templateUrl: 'tpl/custom/${pathName}/${classname}-list.html',
+        controller: '${className}ListCtrl',
+        resolve: {
+            deps: ['uiLoad',
+                function (uiLoad) {
+                    return uiLoad.load(['js/custom/${pathName}/${classname}-list.js',
+                        'js/custom/${pathName}/${classname}-service.js'
+                    ]);
+                }]
+        }
+    })
+    .state('app.${pathName}.form', {
+        url: '/form/{id}',
+        templateUrl: 'tpl/custom/${pathName}/${classname}-form.html',
+        controller: '${className}FormCtrl',
+        resolve: {
+            deps: ['uiLoad',
+                function (uiLoad) {
+                    return uiLoad.load(['js/custom/${pathName}/${classname}-form.js',
+                        'js/custom/${pathName}/${classname}-service.js'
+                    ]);
+                }]
+        }
+    })

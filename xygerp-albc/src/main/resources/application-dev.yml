@@ -1,0 +1,41 @@
+# 配置eureka的ip地址
+eureka.ipAddress: 127.0.0.1
+
+spring:
+    datasource:
+        url: jdbc:oracle:thin:@ip:prot:inst
+        username: apps
+        password: 123456
+        #连接池的配置信息
+        initialSize: 10
+        minIdle: 10
+        maxActive: 100
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+
+    redis:
+      database: 11
+      host: 127.0.0.1
+#      password:
+      port: 6379
+      timeout: 0
+      pool:
+        max-active: 8 #最大连接数
+        max-idle: 8 #最大空闲连接数
+        max-wait: -1 #最大等待时间
+        min-idle: 0 #初始化连接数
+
+security:
+  jwt:
+    secret: k09BQnaF
+    tokenExpiration: 604800 #7Days 604800
+    expiration: 86400 #1Day
+
+ 
