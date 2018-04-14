@@ -98,8 +98,13 @@ D:\JSP_MyEclipse\xygerp-api\xygerp-albc\target>java -jar xygerp-albc-1.0-SNAPSHO
 
 #### 5 测试对应的服务是否可以正确运行：
 
+```
 eureka服务：http://127.0.0.1:8101
-
 xygerp-ald服务接口测试： http://127.0.0.1:8102/xygerp/ald/swagger-ui.html  
-
 xygerp-albc服务接口测试： http://127.0.0.1:8102/xygerp/albc/swagger-ui.html  
+```
+
+# 微服务系统架构图
+
+该系统的架构图如下所示。
+![这里写图片描述](https://user-gold-cdn.xitu.io/2018/4/13/162bf5f3308a4c3c?w=844&h=995&f=png&s=127037)
