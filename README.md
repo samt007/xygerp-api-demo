@@ -3,6 +3,10 @@ xygerp api微服务架构
 
 基于Oracle EBS系统的一个API微服务架构系统，以扩展EBS的各种服务！
 
+系统用途说明：https://juejin.im/post/5ad0bc2cf265da23766bb5e8
+
+# 系统源码使用说明
+
 #### 1 修改链接数据库的配置文件。
 
 首先要说明的是，这个微服务系统是基于EBS的，所以，也就是要链接EBS的Oracle数据库。
