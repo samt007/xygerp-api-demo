@@ -4,7 +4,9 @@ xygerp api微服务架构
 基于Oracle EBS系统的一个API微服务架构系统，以扩展EBS的各种服务！
 
 #### 1 修改链接数据库的配置文件。
+
 首先要说明的是，这个微服务系统是基于EBS的，所以，也就是要链接EBS的Oracle数据库。
+
 修改：
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-ald\src\main\resources\application-dev.yml
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-albc\src\main\resources\application-dev.yml
@@ -19,6 +21,7 @@ password: <!--数据库密码-->
 #### 2 将待引入的jar包(xygerp-comm-1.0-SNAPSHOT.jar)安装到本地repository
 
 （这是由于comm部分涉及一些公司的信息，所以comm并没有开源，请谅解。）
+
 命令行CD到lib目录，再执行命令。
 
 ```
@@ -87,6 +90,9 @@ D:\JSP_MyEclipse\xygerp-api\xygerp-albc\target>java -jar xygerp-albc-1.0-SNAPSHO
 ```
 
 #### 5 测试对应的服务是否可以正确运行：
+
 eureka服务：http://127.0.0.1:8101
+
 xygerp-ald服务接口测试： http://127.0.0.1:8102/xygerp/ald/swagger-ui.html  
+
 xygerp-albc服务接口测试： http://127.0.0.1:8102/xygerp/albc/swagger-ui.html  
