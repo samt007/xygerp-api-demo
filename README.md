@@ -16,13 +16,19 @@ password: <!--数据库密码-->
 备注：如果您不是用EBS系统？也可以使用该微服务架构，那就直接连你自己的数据库即可，但是，需要创建一些列的数据表。
 至少用户表要创建吧！
 
-#### 2 将待引入的jar包(xygerp-comm-1.0-SNAPSHOT.jar)安装到本地repository中
+#### 2 将待引入的jar包(xygerp-comm-1.0-SNAPSHOT.jar)安装到本地repository
+
 （这是由于comm部分涉及一些公司的信息，所以comm并没有开源，请谅解。）
 命令行CD到lib目录，再执行命令。
+
+```
 cd D:\JSP_MyEclipse\xygerp-api-demo\xygerp-comm
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-comm>mvn install:install-file -Dfile=xygerp-comm-1.0-SNAPSHOT.jar -DgroupId=com.xygerp -DartifactId=xygerp-comm -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+```
 
 出现下面的提示说明编译成功：
+
+```
 [INFO] Scanning for projects...
 [INFO]
 [INFO] ------------------------------------------------------------------------
@@ -41,12 +47,18 @@ NAPSHOT.jar to D:\Program Files\apache-maven-repository\com\xygerp\xygerp-comm\1
 [INFO] Finished at: 2018-04-14T16:05:57+08:00
 [INFO] Final Memory: 5M/123M
 [INFO] ------------------------------------------------------------------------
+```
 
 #### 3 再到主目录，执行mvn打包命令：
+
+```
 cd D:\JSP_MyEclipse\xygerp-api-demo
 D:\JSP_MyEclipse\xygerp-api-demo>mvn clean install -Dmaven.test.skip=true -P dev
+```
 
 出现下面的提示说明编译成功：
+
+```
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
 [INFO]
@@ -63,12 +75,16 @@ D:\JSP_MyEclipse\xygerp-api-demo>mvn clean install -Dmaven.test.skip=true -P dev
 [INFO] Finished at: 2018-04-14T14:21:42+08:00
 [INFO] Final Memory: 75M/219M
 [INFO] ------------------------------------------------------------------------
+```
 
 #### 4 再分别到对应的4个项目下，执行命令开启服务：
+
+```
 D:\JSP_MyEclipse\xygerp-api\xygerp-server-eureka\target>java -jar xygerp-server-eureka-1.0-SNAPSHOT.war
 D:\JSP_MyEclipse\xygerp-api\xygerp-server-zuul\target>java -jar xygerp-server-zuul-1.0-SNAPSHOT.war
 D:\JSP_MyEclipse\xygerp-api\xygerp-ald\target>java -jar xygerp-ald-1.0-SNAPSHOT.war
 D:\JSP_MyEclipse\xygerp-api\xygerp-albc\target>java -jar xygerp-albc-1.0-SNAPSHOT.war
+```
 
 #### 5 测试对应的服务是否可以正确运行：
 eureka服务：http://127.0.0.1:8101
