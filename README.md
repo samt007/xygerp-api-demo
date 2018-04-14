@@ -8,12 +8,18 @@ xygerp api微服务架构
 首先要说明的是，这个微服务系统是基于EBS的，所以，也就是要链接EBS的Oracle数据库。
 
 修改：
+
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-ald\src\main\resources\application-dev.yml
+
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-albc\src\main\resources\application-dev.yml
+
 将下面的信息对应修改：
+
+```
 url: <!--你的数据库链接-->
 username: <!--数据库用户，测试环境可以直接用apps-->
 password: <!--数据库密码-->
+```
 
 备注：如果您不是用EBS系统？也可以使用该微服务架构，那就直接连你自己的数据库即可，但是，需要创建一些列的数据表。
 至少用户表要创建吧！
