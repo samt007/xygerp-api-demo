@@ -9,9 +9,10 @@ xygerp api微服务架构
 
 修改：
 
+```
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-ald\src\main\resources\application-dev.yml
-
 D:\JSP_MyEclipse\xygerp-api-demo\xygerp-albc\src\main\resources\application-dev.yml
+```
 
 将下面的信息对应修改：
 
