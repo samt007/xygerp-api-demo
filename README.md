@@ -7,9 +7,17 @@ xygerp api微服务架构
 
 # 系统源码使用说明
 
-#### 1 修改链接数据库的配置文件。
+#### 1 必须要按照的软件。
 
-首先要说明的是，这个微服务系统是基于EBS的，所以，也就是要链接EBS的Oracle数据库。
+首先要说明的是，如果要测试本源码，一些必须的软件还是必须要安装的。
+
+ - Java JDK。建议1.8版本的。
+ - Redis数据库。安装好之后再开启Redis服务。
+ - Maven项目管理工具。
+
+#### 2 修改链接数据库的配置文件。
+
+接着，这个微服务系统是基于EBS的，所以，也就是要链接EBS的Oracle数据库。
 
 修改：
 
@@ -29,7 +37,7 @@ password: <!--数据库密码-->
 备注：如果您不是用EBS系统？也可以使用该微服务架构，那就直接连你自己的数据库即可，但是，需要创建一些列的数据表。
 至少用户表要创建吧！
 
-#### 2 将待引入的jar包(xygerp-comm-1.0-SNAPSHOT.jar)安装到本地repository
+#### 3 将待引入的jar包(xygerp-comm-1.0-SNAPSHOT.jar)安装到本地repository
 
 （这是由于comm部分涉及一些公司的信息，所以comm并没有开源，请谅解。）
 
@@ -63,7 +71,7 @@ NAPSHOT.jar to D:\Program Files\apache-maven-repository\com\xygerp\xygerp-comm\1
 [INFO] ------------------------------------------------------------------------
 ```
 
-#### 3 再到主目录，执行mvn打包命令：
+#### 4 再到主目录，执行mvn打包命令：
 
 ```
 cd D:\JSP_MyEclipse\xygerp-api-demo
@@ -91,7 +99,7 @@ D:\JSP_MyEclipse\xygerp-api-demo>mvn clean install -Dmaven.test.skip=true -P dev
 [INFO] ------------------------------------------------------------------------
 ```
 
-#### 4 再分别到对应的4个项目下，执行命令开启服务：
+#### 5 再分别到对应的4个项目下，执行命令开启服务：
 
 ```
 D:\JSP_MyEclipse\xygerp-api\xygerp-server-eureka\target>java -jar xygerp-server-eureka-1.0-SNAPSHOT.war
@@ -100,7 +108,7 @@ D:\JSP_MyEclipse\xygerp-api\xygerp-ald\target>java -jar xygerp-ald-1.0-SNAPSHOT.
 D:\JSP_MyEclipse\xygerp-api\xygerp-albc\target>java -jar xygerp-albc-1.0-SNAPSHOT.war
 ```
 
-#### 5 测试对应的服务是否可以正确运行：
+#### 6 测试对应的服务是否可以正确运行：
 
 ```
 eureka服务：http://127.0.0.1:8101
