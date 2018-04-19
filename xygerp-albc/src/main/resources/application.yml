@@ -31,7 +31,7 @@ eureka:
         hostname: ${eureka.ipAddress}
     client:
         service-url.defaultZone: http://${eureka.ipAddress}:8101/eureka/
-        eureka-server-read-timeout-seconds: 30
+        eureka-server-read-timeout-seconds: 60
 
 # Mybatis配置
 mybatis:
@@ -52,6 +52,8 @@ pagehelper:
     params: count=countSql
 
 hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+hystrix.command.default.execution.timeout.enabled: false 
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 100000
 #请求处理的超时时间  
 ribbon.ReadTimeout: 120000  
 #请求连接的超时时间  

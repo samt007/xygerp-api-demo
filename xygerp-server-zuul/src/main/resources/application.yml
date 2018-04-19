@@ -15,14 +15,19 @@ zuul:
       socket-timeout-millis: 100000
     addProxyHeaders: true
     routes:
-        fnd:
+        ald:
             path: /xygerp/ald/**
             serviceId: xygerp-ald
             stripPrefix: false # 请求路径需要添加所匹配path
-        erp:
+        albc:
             path: /xygerp/albc/**
             serviceId: xygerp-albc
             stripPrefix: false
+
+#禁用Eureka对Ribbon服务实例的维护实现。
+ribbon.eureka.enabled: false
+xygerp-ald.ribbon.listOfServers: ${eureka.ipAddress}:8180
+xygerp-albc.ribbon.listOfServers: ${eureka.ipAddress}:8181
 
 eureka:
     instance:
@@ -32,7 +37,7 @@ eureka:
         hostname: ${eureka.ipAddress}
     client:
         serviceUrl.defaultZone: http://${eureka.ipAddress}:8101/eureka/
-        eureka-server-read-timeout-seconds: 30
+        eureka-server-read-timeout-seconds: 60
 
 ribbon:
     ReadTimeout: 100000
@@ -40,4 +45,3 @@ ribbon:
 
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 100000
 hystrix.command.default.execution.timeout.enabled: false 
-feign.hystrix.enabled: false
